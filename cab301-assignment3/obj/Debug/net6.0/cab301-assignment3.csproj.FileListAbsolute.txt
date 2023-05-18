@@ -1,0 +1,15 @@
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\cab301-assignment3.exe
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\cab301-assignment3.deps.json
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\cab301-assignment3.runtimeconfig.json
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\cab301-assignment3.dll
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\ref\cab301-assignment3.dll
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\bin\Debug\net6.0\cab301-assignment3.pdb
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.csproj.AssemblyReference.cache
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.AssemblyInfoInputs.cache
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.AssemblyInfo.cs
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.csproj.CoreCompileInputs.cache
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.dll
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\ref\cab301-assignment3.dll
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.pdb
+C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\obj\Debug\net6.0\cab301-assignment3.genruntimeconfig.cache
