@@ -5,10 +5,51 @@ Console.WriteLine("╚═══════════════════�
 Console.WriteLine();
 Console.ForegroundColor = ConsoleColor.White;
 
-string fileName = "tasks.txt";
-string filePath = @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\tasks.txt";
+string filePath = "";
 
-Console.WriteLine(filePath);
+bool exit = false;
+
+while (!exit)
+{
+    DisplayMenu();
+    int choice;
+    if (int.TryParse(Console.ReadLine(), out choice))
+    {
+        switch (choice)
+        {
+            case 1:
+                InitialiseFile();
+                break;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. Please enter a number.");
+    }
+
+    Console.WriteLine();
+}
+
+static void DisplayMenu()
+{
+    Console.WriteLine("Menu:");
+    Console.WriteLine("1. Load Project from File");
+    Console.WriteLine("2. Add Job");
+    Console.WriteLine("3. Remove Job");
+    Console.WriteLine("4. Change Job Time");
+    Console.WriteLine("5. Save Project to File");
+    Console.WriteLine("6. Find Task Sequence");
+    Console.WriteLine("7. Find Earliest Times");
+    Console.WriteLine("8. Exit");
+    Console.Write("Enter your choice: ");
+}
+
+void InitialiseFile()
+{
+    Console.Write("Enter the path of the text file: ");
+    filePath = Console.ReadLine();
+    Console.WriteLine("File loaded successfully!");
+}
 
 try
 {
@@ -24,8 +65,4 @@ try
 catch (Exception e)
 {
     Console.WriteLine("Exception: " + e.Message);
-}
-finally
-{
-    Console.WriteLine("Executing finally block.");
 }
