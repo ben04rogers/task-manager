@@ -20,6 +20,9 @@ while (!exit)
             case 1:
                 InitialiseFile();
                 break;
+            case 8:
+                exit = true;
+                break;
         }
     }
     else
@@ -30,7 +33,7 @@ while (!exit)
     Console.WriteLine();
 }
 
-static void DisplayMenu()
+void DisplayMenu()
 {
     Console.WriteLine("Menu:");
     Console.WriteLine("1. Load Project from File");
