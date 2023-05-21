@@ -47,14 +47,19 @@ void DisplayMenu()
 
 void InitialiseFile()
 {
-    Console.Write("Enter full path of the text file: ");
+    Console.Write("Enter full path of the text file (with extension): ");
     filePath = Console.ReadLine();
 
     if (!File.Exists(filePath))
     {
         Console.WriteLine("File '{0}' does not exist", filePath);
         filePath = "";
-    } 
+    }
+    else if (Path.GetExtension(filePath) != ".txt")
+    {
+        Console.WriteLine("File '{0}' is not a .txt file", filePath);
+        filePath = "";
+    }
     else
     {
         Console.WriteLine("File '{0}' loaded successfully!", filePath);
