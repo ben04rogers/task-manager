@@ -5,7 +5,12 @@
       "ProjectGuid": "476526de-d62b-4b92-ac7f-5d0dbf0db5f3",
       "DisplayName": "cab301-assignment3",
       "ColorIndex": 0
+    },
+    "8bc8e7b0-ad81-4816-96bb-ea4a0e7fc9c5": {
+      "ProjectGuid": "8bc8e7b0-ad81-4816-96bb-ea4a0e7fc9c5",
+      "DisplayName": "cab301-assignment3",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }

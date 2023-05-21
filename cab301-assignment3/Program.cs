@@ -1,9 +1,7 @@
-﻿Console.ForegroundColor = ConsoleColor.Cyan;
-Console.WriteLine("╔════════════════════════════════════╗");
-Console.WriteLine("║     Welcome to TaskMinder Pro      ║");
-Console.WriteLine("╚════════════════════════════════════╝");
+﻿Console.WriteLine("╔═══════════════════════════════╗");
+Console.WriteLine("║     Welcome to TaskMinder     ║");
+Console.WriteLine("╚═══════════════════════════════╝");
 Console.WriteLine();
-Console.ForegroundColor = ConsoleColor.White;
 
 string filePath = "";
 
@@ -49,9 +47,19 @@ void DisplayMenu()
 
 void InitialiseFile()
 {
-    Console.Write("Enter the path of the text file: ");
+    Console.Write("Enter full path of the text file: ");
     filePath = Console.ReadLine();
-    Console.WriteLine("File loaded successfully!");
+
+    if (!File.Exists(filePath))
+    {
+        Console.WriteLine("File '{0}' does not exist", filePath);
+        filePath = "";
+    } 
+    else
+    {
+        Console.WriteLine("File '{0}' loaded successfully!", filePath);
+
+    }
 }
 
 try
