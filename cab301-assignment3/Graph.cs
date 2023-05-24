@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace cab301_assignment3
 {
-    internal class Graph
+    internal class TaskManager
     {
         private Dictionary<string, List<string>> adjacencyList;
 
-        public Graph()
+        public TaskManager()
         {
             adjacencyList = new Dictionary<string, List<string>>();
         }
@@ -77,7 +77,19 @@ namespace cab301_assignment3
             Console.WriteLine("Tasks in the graph:");
             foreach (var task in adjacencyList.Keys)
             {
-                Console.WriteLine(task);
+                Console.WriteLine($"Task: {task}");
+
+                List<string> dependencies = adjacencyList[task];
+                if (dependencies.Count > 0)
+                {
+                    Console.WriteLine($"Dependencies: {string.Join(", ", dependencies)}");
+                }
+                else
+                {
+                    Console.WriteLine("No dependencies");
+                }
+
+                Console.WriteLine();
             }
         }
     }

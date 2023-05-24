@@ -1,12 +1,12 @@
 ﻿using cab301_assignment3;
 
 
-Console.WriteLine("╔═══════════════════════════════╗");
-Console.WriteLine("║     Welcome to TaskMinder     ║");
-Console.WriteLine("╚═══════════════════════════════╝");
+Console.WriteLine("╔════════════════════════════════╗");
+Console.WriteLine("║     Welcome to TaskTracker     ║");
+Console.WriteLine("╚════════════════════════════════╝");
 Console.WriteLine();
 
-Graph graph = new Graph();
+TaskManager taskManager = new TaskManager();
 string filePath = "";
 
 bool exit = false;
@@ -20,7 +20,7 @@ while (!exit)
         switch (choice)
         {
             case 1:
-                InitialiseFile(graph);
+                InitialiseFile(taskManager);
                 break;
             case 8:
                 exit = true;
@@ -49,7 +49,7 @@ void DisplayMenu()
     Console.Write("Enter your choice: ");
 }
 
-static void InitialiseFile(Graph graph)
+static void InitialiseFile(TaskManager taskManager)
 {
     Console.Write("Enter full path of the text file (with extension): ");
     string filePath = Console.ReadLine();
@@ -65,7 +65,7 @@ static void InitialiseFile(Graph graph)
     else
     {
         Console.WriteLine("File '{0}' loaded successfully!", filePath);
-        graph.ReadTasksFromFile(filePath);
-        graph.PrintTasks();
+        taskManager.ReadTasksFromFile(filePath);
+        taskManager.PrintTasks();
     }
 }
