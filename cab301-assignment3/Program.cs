@@ -28,6 +28,9 @@ while (!exit)
             case 3:
                 RemoveTask(taskManager);
                 break;
+            case 4:
+                UpdateTaskTime(taskManager);
+                break;
             case 8:
                 taskManager.PrintTasks();
                 break;
@@ -50,7 +53,7 @@ void DisplayMenu()
     Console.WriteLine("(1) Load Project from File");
     Console.WriteLine("(2) Add Task");
     Console.WriteLine("(3) Remove Task");
-    Console.WriteLine("(4) Change Task Time");
+    Console.WriteLine("(4) Update Task Time");
     Console.WriteLine("(5) Save Project to File");
     Console.WriteLine("(6) Find Task Sequence");
     Console.WriteLine("(7) Find Earliest Times");
@@ -62,7 +65,8 @@ void DisplayMenu()
 static void InitialiseFile(TaskManager taskManager)
 {
     Console.Write("Enter full path of the text file (with extension): ");
-    string filePath = Console.ReadLine();
+    // string filePath = Console.ReadLine();
+    string filePath = @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\tasks.txt";
 
     if (!File.Exists(filePath))
     {
@@ -109,4 +113,19 @@ static void RemoveTask(TaskManager taskManager)
     string taskId = Console.ReadLine();
 
     taskManager.RemoveTask(taskId);
+}
+
+static void UpdateTaskTime(TaskManager taskManager)
+{
+    Console.Write("Enter task ID: ");
+    string taskId = Console.ReadLine();
+
+    Console.Write("Enter new time needed to complete the task: ");
+    if (!int.TryParse(Console.ReadLine(), out int newTimeNeeded))
+    {
+        Console.WriteLine("Invalid time input. Please enter a valid integer value.");
+        return;
+    }
+
+    taskManager.UpdateTaskTime(taskId, newTimeNeeded);
 }

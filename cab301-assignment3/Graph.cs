@@ -64,13 +64,17 @@ namespace cab301_assignment3
         {
             if (!adjacencyList.ContainsKey(taskId))
             {
-                adjacencyList.Add(taskId, dependencies);
+                List<string> taskDetails = new List<string>();
+                taskDetails.Add(timeNeeded.ToString());
+                taskDetails.AddRange(dependencies);
+                adjacencyList.Add(taskId, taskDetails);
             }
             else
             {
                 Console.WriteLine($"Task '{taskId}' already exists in the graph.");
             }
         }
+
 
         public void RemoveTask(string taskId)
         {
@@ -97,18 +101,43 @@ namespace cab301_assignment3
             {
                 Console.WriteLine($"Task: {task}");
 
-                List<string> dependencies = adjacencyList[task];
-                if (dependencies.Count > 0)
+                List<string> taskDetails = adjacencyList[task];
+                if (taskDetails.Count > 0)
                 {
-                    Console.WriteLine($"Dependencies: {string.Join(", ", dependencies)}");
+                    Console.WriteLine($"Time Needed: {taskDetails[0]}");
+                    if (taskDetails.Count > 1)
+                    {
+                        List<string> dependencies = taskDetails.GetRange(1, taskDetails.Count - 1);
+                        Console.WriteLine($"Dependencies: {string.Join(", ", dependencies)}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No dependencies");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("No dependencies");
+                    Console.WriteLine("No information available for this task");
                 }
 
                 Console.WriteLine();
             }
         }
+
+
+        public void UpdateTaskTime(string taskId, int newTimeNeeded)
+        {
+            if (adjacencyList.ContainsKey(taskId))
+            {
+                // Update the time needed for the task
+                adjacencyList[taskId][0] = newTimeNeeded.ToString();
+                Console.WriteLine($"Time needed for task '{taskId}' updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Task '{taskId}' does not exist in the graph.");
+            }
+        }
+
     }
 }
