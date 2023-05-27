@@ -72,6 +72,24 @@ namespace cab301_assignment3
             }
         }
 
+        public void RemoveTask(string taskId)
+        {
+            if (adjacencyList.ContainsKey(taskId))
+            {
+                adjacencyList.Remove(taskId);
+                // Remove the task from dependencies of other tasks
+                foreach (var dependencies in adjacencyList.Values)
+                {
+                    dependencies.Remove(taskId);
+                }
+                Console.WriteLine($"Task '{taskId}' removed successfully!");
+            }
+            else
+            {
+                Console.WriteLine($"Task '{taskId}' does not exist in the graph.");
+            }
+        }
+
         public void PrintTasks()
         {
             Console.WriteLine("Tasks in the graph:");
