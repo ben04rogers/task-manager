@@ -81,7 +81,8 @@ namespace cab301_assignment3
             if (adjacencyList.ContainsKey(taskId))
             {
                 adjacencyList.Remove(taskId);
-                // Remove the task from dependencies of other tasks
+
+                // Remove this task from the dependencies of other tasks
                 foreach (var dependencies in adjacencyList.Values)
                 {
                     dependencies.Remove(taskId);
@@ -125,12 +126,11 @@ namespace cab301_assignment3
         }
 
 
-        public void UpdateTaskTime(string taskId, int newTimeNeeded)
+        public void UpdateTaskTime(string taskId, int newExecutionTime)
         {
             if (adjacencyList.ContainsKey(taskId))
             {
-                // Update the time needed for the task
-                adjacencyList[taskId][0] = newTimeNeeded.ToString();
+                adjacencyList[taskId][0] = newExecutionTime.ToString();
                 Console.WriteLine($"Time needed for task '{taskId}' updated successfully.");
             }
             else
