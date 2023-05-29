@@ -7,6 +7,7 @@ Console.WriteLine("╚═══════════════════�
 Console.WriteLine();
 
 TaskManager taskManager = new TaskManager();
+
 string filePath = "";
 
 bool exit = false;
@@ -20,7 +21,7 @@ while (!exit)
         switch (choice)
         {
             case 1:
-                InitialiseFile(taskManager);
+                InitialiseFile(taskManager, ref filePath);
                 break;
             case 2:
                 AddTask(taskManager);
@@ -30,6 +31,9 @@ while (!exit)
                 break;
             case 4:
                 UpdateTaskTime(taskManager);
+                break;
+            case 5:
+                SaveTasksToFile(taskManager, filePath);
                 break;
             case 8:
                 taskManager.PrintTasks();
@@ -62,11 +66,11 @@ void DisplayMenu()
     Console.Write("Enter your choice: ");
 }
 
-static void InitialiseFile(TaskManager taskManager)
+static void InitialiseFile(TaskManager taskManager, ref string filePath)
 {
     Console.Write("Enter full path of the text file (with extension): ");
     // string filePath = Console.ReadLine();
-    string filePath = @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\tasks.txt";
+    filePath = @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\tasks.txt";
 
     if (!File.Exists(filePath))
     {
@@ -128,4 +132,9 @@ static void UpdateTaskTime(TaskManager taskManager)
     }
 
     taskManager.UpdateTaskTime(taskId, newTimeNeeded);
+}
+
+static void SaveTasksToFile(TaskManager taskManager, string filePath)
+{
+    taskManager.SaveTasksToFile(filePath);
 }
