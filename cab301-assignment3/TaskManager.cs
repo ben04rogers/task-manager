@@ -97,6 +97,26 @@ namespace cab301_assignment3
             }
         }
 
+        public void SaveTaskSequenceToFile(List<string> taskSequence, string filePath)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    foreach (string task in taskSequence)
+                    {
+                        writer.WriteLine(task);
+                    }
+                }
+
+                Console.WriteLine("Task sequence saved to file successfully!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while saving the task sequence: " + e.Message);
+            }
+        }
+
         public void AddTask(string taskId, int timeNeeded, List<string> dependencies)
         {
             if (!adjacencyList.ContainsKey(taskId))
@@ -162,7 +182,6 @@ namespace cab301_assignment3
             }
         }
 
-
         public void UpdateTaskTime(string taskId, int newExecutionTime)
         {
             if (adjacencyList.ContainsKey(taskId))
@@ -176,5 +195,63 @@ namespace cab301_assignment3
             }
         }
 
+        public List<string> TopologicalSort()
+        {
+            List<string> sortedTasks = new List<string>();
+            Dictionary<string, int> inDegree = new Dictionary<string, int>();
+
+            // Initialize in-degree for all tasks
+            foreach (var task in adjacencyList)
+            {
+                string taskId = task.Key;
+                inDegree[taskId] = 0;
+            }
+
+            // Calculate in-degree for each task
+            foreach (var task in adjacencyList)
+            {
+                string taskId = task.Key;
+                List<string> dependencies = task.Value.Skip(1).ToList();
+
+                foreach (string dependency in dependencies)
+                {
+                    inDegree[dependency]++;
+                }
+            }
+
+            // Enqueue tasks with in-degree 0
+            Queue<string> queue = new Queue<string>();
+            foreach (var task in inDegree)
+            {
+                if (task.Value == 0)
+                {
+                    queue.Enqueue(task.Key);
+                }
+            }
+
+            // Perform topological sorting
+            while (queue.Count > 0)
+            {
+                string task = queue.Dequeue();
+                sortedTasks.Add(task);
+
+                if (adjacencyList.ContainsKey(task))
+                {
+                    List<string> dependencies = adjacencyList[task].Skip(1).ToList();
+
+                    foreach (string dependency in dependencies)
+                    {
+                        inDegree[dependency]--;
+
+                        if (inDegree[dependency] == 0)
+                        {
+                            queue.Enqueue(dependency);
+                        }
+                    }
+                }
+            }
+
+            return sortedTasks;
+        }
     }
 }

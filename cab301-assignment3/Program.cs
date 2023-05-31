@@ -35,6 +35,9 @@ while (!exit)
             case 5:
                 SaveTasksToFile(taskManager, filePath);
                 break;
+            case 6:
+                FindAndSaveTaskSequence(taskManager, @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\sequence.txt");
+                break;
             case 8:
                 taskManager.PrintTasks();
                 break;
@@ -137,4 +140,16 @@ static void UpdateTaskTime(TaskManager taskManager)
 static void SaveTasksToFile(TaskManager taskManager, string filePath)
 {
     taskManager.SaveTasksToFile(filePath);
+}
+
+static void FindAndSaveTaskSequence(TaskManager taskManager, string filePath)
+{
+    List<string> taskSequence = taskManager.TopologicalSort();
+
+    if (taskSequence != null)
+    {
+        string sequenceString = string.Join(", ", taskSequence);
+        File.WriteAllText(filePath, sequenceString);
+        Console.WriteLine("Task sequence saved to file: " + filePath);
+    }
 }
