@@ -149,7 +149,10 @@ static void FindAndSaveTaskSequence(TaskManager taskManager, string filePath)
     if (taskSequence != null)
     {
         string sequenceString = string.Join(", ", taskSequence);
+
         File.WriteAllText(filePath, sequenceString);
+
+        Console.WriteLine(sequenceString);        
         Console.WriteLine("Task sequence saved to file: " + filePath);
     }
 }

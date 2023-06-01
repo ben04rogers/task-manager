@@ -132,7 +132,6 @@ namespace cab301_assignment3
             }
         }
 
-
         public void RemoveTask(string taskId)
         {
             if (adjacencyList.ContainsKey(taskId))
@@ -198,60 +197,42 @@ namespace cab301_assignment3
         public List<string> TopologicalSort()
         {
             List<string> sortedTasks = new List<string>();
-            Dictionary<string, int> inDegree = new Dictionary<string, int>();
+            HashSet<string> visited = new HashSet<string>();
+            Stack<string> stack = new Stack<string>();
 
-            // Initialize in-degree for all tasks
             foreach (var task in adjacencyList)
             {
                 string taskId = task.Key;
-                inDegree[taskId] = 0;
-            }
-
-            // Calculate in-degree for each task
-            foreach (var task in adjacencyList)
-            {
-                string taskId = task.Key;
-                List<string> dependencies = task.Value.Skip(1).ToList();
-
-                foreach (string dependency in dependencies)
+                if (!visited.Contains(taskId))
                 {
-                    inDegree[dependency]++;
+                    DFS(taskId, visited, stack);
                 }
             }
 
-            // Enqueue tasks with in-degree 0
-            Queue<string> queue = new Queue<string>();
-            foreach (var task in inDegree)
+            while (stack.Count > 0)
             {
-                if (task.Value == 0)
-                {
-                    queue.Enqueue(task.Key);
-                }
+                sortedTasks.Insert(0, stack.Pop()); // Insert at the beginning of the list
             }
 
-            // Perform topological sorting
-            while (queue.Count > 0)
+            return sortedTasks;
+        }
+
+        private void DFS(string taskId, HashSet<string> visited, Stack<string> stack)
+        {
+            visited.Add(taskId);
+
+            if (adjacencyList.ContainsKey(taskId))
             {
-                string task = queue.Dequeue();
-                sortedTasks.Add(task);
-
-                if (adjacencyList.ContainsKey(task))
+                foreach (string dependency in adjacencyList[taskId].Skip(1))
                 {
-                    List<string> dependencies = adjacencyList[task].Skip(1).ToList();
-
-                    foreach (string dependency in dependencies)
+                    if (!visited.Contains(dependency))
                     {
-                        inDegree[dependency]--;
-
-                        if (inDegree[dependency] == 0)
-                        {
-                            queue.Enqueue(dependency);
-                        }
+                        DFS(dependency, visited, stack);
                     }
                 }
             }
 
-            return sortedTasks;
+            stack.Push(taskId);
         }
     }
 }
