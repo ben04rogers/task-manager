@@ -205,19 +205,20 @@ namespace cab301_assignment3
                 string taskId = task.Key;
                 if (!visited.Contains(taskId))
                 {
-                    DFS(taskId, visited, stack);
+                    DepthFirstSearch(taskId, visited, stack);
                 }
             }
 
             while (stack.Count > 0)
             {
-                sortedTasks.Insert(0, stack.Pop()); // Insert at the beginning of the list
+                // Insert at the beginning of the list
+                sortedTasks.Insert(0, stack.Pop());
             }
 
             return sortedTasks;
         }
 
-        private void DFS(string taskId, HashSet<string> visited, Stack<string> stack)
+        private void DepthFirstSearch(string taskId, HashSet<string> visited, Stack<string> stack)
         {
             visited.Add(taskId);
 
@@ -227,7 +228,7 @@ namespace cab301_assignment3
                 {
                     if (!visited.Contains(dependency))
                     {
-                        DFS(dependency, visited, stack);
+                        DepthFirstSearch(dependency, visited, stack);
                     }
                 }
             }
