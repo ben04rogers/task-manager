@@ -25,39 +25,35 @@ namespace cab301_assignment3
                 {
                     string[] parts = line.Split(',');
 
-                    if (parts.Length >= 2)
-                    {
-                        string taskId = parts[0].Trim();
-
-                        uint timeNeeded;
-
-                        if (uint.TryParse(parts[1].Trim(), out timeNeeded))
-                        {
-                            List<string> dependencies = new List<string>();
-
-                            for (int i = 2; i < parts.Length; i++)
-                            {
-                                dependencies.Add(parts[i].Trim());
-                            }
-
-                            AddTask(taskId, timeNeeded, dependencies);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Invalid time needed for task '{taskId}'");
-                        }
-                    }
-                    else
+                    if (parts.Length < 2)
                     {
                         Console.WriteLine($"Invalid line: {line}");
+                        continue;
                     }
+
+                    string taskId = parts[0].Trim();
+
+                    if (!uint.TryParse(parts[1].Trim(), out uint timeNeeded))
+                    {
+                        Console.WriteLine($"Invalid time needed for task '{taskId}'");
+                        continue;
+                    }
+
+                    List<string> dependencies = new List<string>();
+
+                    for (int i = 2; i < parts.Length; i++)
+                    {
+                        dependencies.Add(parts[i].Trim());
+                    }
+
+                    AddTask(taskId, timeNeeded, dependencies);
                 }
 
                 Console.WriteLine("Tasks and dependencies loaded from file successfully!");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error while reading the file: " + e.Message);
+                Console.WriteLine("Error while reading file: " + e.Message);
             }
         }
 
