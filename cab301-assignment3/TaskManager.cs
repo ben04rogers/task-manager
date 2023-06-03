@@ -28,6 +28,7 @@ namespace cab301_assignment3
                     if (parts.Length >= 2)
                     {
                         string taskId = parts[0].Trim();
+
                         uint timeNeeded;
 
                         if (uint.TryParse(parts[1].Trim(), out timeNeeded))
@@ -73,6 +74,7 @@ namespace cab301_assignment3
                         foreach (var task in adjacencyList)
                         {
                             StringBuilder line = new StringBuilder();
+
                             line.Append(task.Key).Append(", ").Append(task.Value[0]);
 
                             for (int i = 1; i < task.Value.Count; i++)
@@ -122,8 +124,11 @@ namespace cab301_assignment3
             if (!adjacencyList.ContainsKey(taskId))
             {
                 List<string> taskDetails = new List<string>();
+
                 taskDetails.Add(timeNeeded.ToString());
+                
                 taskDetails.AddRange(dependencies);
+                
                 adjacencyList.Add(taskId, taskDetails);
             }
             else
@@ -138,7 +143,7 @@ namespace cab301_assignment3
             {
                 adjacencyList.Remove(taskId);
 
-                // Remove this task from the dependencies of other tasks
+                // Remove task from the dependencies of other tasks
                 foreach (var dependencies in adjacencyList.Values)
                 {
                     dependencies.Remove(taskId);
@@ -153,18 +158,22 @@ namespace cab301_assignment3
 
         public void PrintTasks()
         {
-            Console.WriteLine("Tasks in the graph:");
+            Console.WriteLine("All Tasks:");
+
             foreach (var task in adjacencyList.Keys)
             {
                 Console.WriteLine($"Task: {task}");
 
                 List<string> taskDetails = adjacencyList[task];
+
                 if (taskDetails.Count > 0)
                 {
                     Console.WriteLine($"Time Needed: {taskDetails[0]}");
+
                     if (taskDetails.Count > 1)
                     {
                         List<string> dependencies = taskDetails.GetRange(1, taskDetails.Count - 1);
+
                         Console.WriteLine($"Dependencies: {string.Join(", ", dependencies)}");
                     }
                     else
@@ -174,7 +183,7 @@ namespace cab301_assignment3
                 }
                 else
                 {
-                    Console.WriteLine("No information available for this task");
+                    Console.WriteLine("Task details unavailable");
                 }
 
                 Console.WriteLine();
@@ -186,6 +195,7 @@ namespace cab301_assignment3
             if (adjacencyList.ContainsKey(taskId))
             {
                 adjacencyList[taskId][0] = newExecutionTime.ToString();
+
                 Console.WriteLine($"Time needed for task '{taskId}' updated successfully.");
             }
             else

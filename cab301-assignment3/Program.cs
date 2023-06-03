@@ -85,10 +85,9 @@ static string InitialiseFile(TaskManager taskManager)
 {
     Console.WriteLine("Enter the file name (e.g. tasks.txt) to load from the /documents folder.");
     Console.WriteLine();
+    Console.Write("File Name (with extension): ");
 
-    Console.Write("File Name: ");
     string fileName = Console.ReadLine();
-
     string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     string tasksFilePath = Path.Combine(documentsFolder, fileName);
 
