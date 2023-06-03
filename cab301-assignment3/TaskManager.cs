@@ -18,20 +18,25 @@ namespace cab301_assignment3
         {
             try
             {
+                // Read lines from the file
                 string[] lines = File.ReadAllLines(tasksFilePath);
 
                 foreach (string line in lines)
                 {
+                    // Split the lines based on comma delimeter
                     string[] parts = line.Split(',');
 
                     if (parts.Length < 2)
                     {
+                        // Invalid line that doesn't fit the desired format
                         Console.WriteLine($"Invalid line: {line}");
                         continue;
                     }
 
+                    // Get the task id
                     string taskId = parts[0].Trim();
 
+                    // Get the time needed 
                     if (!uint.TryParse(parts[1].Trim(), out uint timeNeeded))
                     {
                         Console.WriteLine($"Invalid time needed for task '{taskId}'");
@@ -40,11 +45,13 @@ namespace cab301_assignment3
 
                     List<string> dependencies = new List<string>();
 
+                    // Get the dependencies 
                     for (int i = 2; i < parts.Length; i++)
                     {
                         dependencies.Add(parts[i].Trim());
                     }
 
+                    // Add task, and dependencies to the graph
                     AddTask(taskId, timeNeeded, dependencies);
                 }
 
@@ -68,12 +75,16 @@ namespace cab301_assignment3
             {
                 Console.WriteLine("Trying to write to file: " + filePath);
 
+                // Create stream writer to write output to tasks file
                 using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     foreach (var task in adjacencyList)
                     {
-                        string line = task.Key + ", " + string.Join(", ", task.Value);
-                        writer.WriteLine(line);
+                        // Construct line for task
+                        string taskLine = task.Key + ", " + string.Join(", ", task.Value);
+
+                        // Write to the file
+                        writer.WriteLine(taskLine);
                     }
                 }
 
