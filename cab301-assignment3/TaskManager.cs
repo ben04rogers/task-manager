@@ -51,7 +51,7 @@ namespace cab301_assignment3
                         dependencies.Add(parts[i].Trim());
                     }
 
-                    // Add task, and dependencies to the graph
+                    // Add task and dependencies to the graph
                     AddTask(taskId, timeNeeded, dependencies);
                 }
 
