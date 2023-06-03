@@ -15,11 +15,11 @@ namespace cab301_assignment3
             adjacencyList = new Dictionary<string, List<string>>();
         }
 
-        public void ReadTasksFromFile(string filePath)
+        public void ReadTasksFromFile(string tasksFilePath)
         {
             try
             {
-                string[] lines = File.ReadAllLines(filePath);
+                string[] lines = File.ReadAllLines(tasksFilePath);
 
                 foreach (string line in lines)
                 {

@@ -8,23 +8,31 @@ Console.WriteLine();
 
 TaskManager taskManager = new TaskManager();
 
-string filePath = "";
+string tasksFilePath = "";
 
 bool exit = false;
 
 while (!exit)
 {
     DisplayMenu();
+    
     int choice;
+
     if (int.TryParse(Console.ReadLine(), out choice))
     {
+        if (choice < 0 || choice > 9)
+        {
+            Console.WriteLine("Invalid input. Please enter a number (0-8).");
+            continue;
+        }
+
         switch (choice)
         {
             case 0:
                 Console.Clear();
                 break;
             case 1:
-                InitialiseFile(taskManager, ref filePath);
+                tasksFilePath = InitialiseFile(taskManager);
                 break;
             case 2:
                 AddTask(taskManager);
@@ -36,10 +44,10 @@ while (!exit)
                 UpdateTaskTime(taskManager);
                 break;
             case 5:
-                SaveTasksToFile(taskManager, filePath);
+                SaveTasksToFile(taskManager, tasksFilePath);
                 break;
             case 6:
-                FindAndSaveTaskSequence(taskManager, @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\sequence.txt");
+                FindAndSaveTaskSequence(taskManager);
                 break;
             case 8:
                 taskManager.PrintTasks();
@@ -51,7 +59,7 @@ while (!exit)
     }
     else
     {
-        Console.WriteLine("Invalid input. Please enter a number.");
+        Console.WriteLine("Invalid input. Please enter a number (0-8).");
     }
 
     Console.WriteLine();
@@ -73,26 +81,30 @@ void DisplayMenu()
     Console.Write("Enter your choice (0-8): ");
 }
 
-static void InitialiseFile(TaskManager taskManager, ref string filePath)
+static string InitialiseFile(TaskManager taskManager)
 {
-    Console.Write("Enter full path of the text file (with extension): ");
-    // string filePath = Console.ReadLine();
-    filePath = @"C:\Users\benro\OneDrive\Desktop\cab301-assignment3\cab301-assignment3\tasks.txt";
+    Console.WriteLine("Enter the file name (e.g. tasks.txt) to load from the /documents folder.");
+    Console.WriteLine();
 
-    if (!File.Exists(filePath))
+    Console.Write("File Name: ");
+    string fileName = Console.ReadLine();
+
+    string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    string tasksFilePath = Path.Combine(documentsFolder, fileName);
+
+    if (!File.Exists(tasksFilePath))
     {
-        Console.WriteLine("File '{0}' does not exist", filePath);
-    }
-    else if (Path.GetExtension(filePath) != ".txt")
-    {
-        Console.WriteLine("File '{0}' is not a .txt file", filePath);
+        Console.WriteLine("File '{0}' does not exist in the documents folder.", fileName);
+        return null;
     }
     else
     {
-        Console.WriteLine("File '{0}' loaded successfully!", filePath);
-        taskManager.ReadTasksFromFile(filePath);
+        Console.WriteLine("File '{0}' loaded successfully from the documents folder!", fileName);
+        taskManager.ReadTasksFromFile(tasksFilePath);
+        return tasksFilePath;
     }
 }
+
 
 static void AddTask(TaskManager taskManager)
 {
@@ -146,8 +158,12 @@ static void SaveTasksToFile(TaskManager taskManager, string filePath)
     taskManager.SaveTasksToFile(filePath);
 }
 
-static void FindAndSaveTaskSequence(TaskManager taskManager, string filePath)
+static void FindAndSaveTaskSequence(TaskManager taskManager)
 {
+    string fileName = "sequence.txt";
+    string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    string filePath = Path.Combine(documentsFolder, fileName);
+
     List<string> taskSequence = taskManager.TopologicalSort();
 
     if (taskSequence != null)
@@ -156,7 +172,7 @@ static void FindAndSaveTaskSequence(TaskManager taskManager, string filePath)
 
         File.WriteAllText(filePath, sequenceString);
 
-        Console.WriteLine(sequenceString);        
+        Console.WriteLine(sequenceString);
         Console.WriteLine("Task sequence saved to file: " + filePath);
     }
 }
