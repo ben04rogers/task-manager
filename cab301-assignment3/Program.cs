@@ -112,9 +112,15 @@ static void AddTask(TaskManager taskManager)
     string taskId = Console.ReadLine();
 
     Console.Write("Enter time needed to complete the task: ");
-    if (!int.TryParse(Console.ReadLine(), out int timeNeeded))
+    if (!uint.TryParse(Console.ReadLine(), out uint timeNeeded))
     {
         Console.WriteLine("Invalid time input. Please enter a valid integer value.");
+        return;
+    }
+
+    if (timeNeeded >= uint.MaxValue)
+    {
+        Console.WriteLine("Time needed exceeds the maximum allowed value.");
         return;
     }
 

@@ -28,9 +28,9 @@ namespace cab301_assignment3
                     if (parts.Length >= 2)
                     {
                         string taskId = parts[0].Trim();
-                        int timeNeeded;
+                        uint timeNeeded;
 
-                        if (int.TryParse(parts[1].Trim(), out timeNeeded))
+                        if (uint.TryParse(parts[1].Trim(), out timeNeeded))
                         {
                             List<string> dependencies = new List<string>();
 
@@ -117,7 +117,7 @@ namespace cab301_assignment3
             }
         }
 
-        public void AddTask(string taskId, int timeNeeded, List<string> dependencies)
+        public void AddTask(string taskId, uint timeNeeded, List<string> dependencies)
         {
             if (!adjacencyList.ContainsKey(taskId))
             {
