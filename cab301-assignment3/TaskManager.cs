@@ -58,39 +58,30 @@ namespace cab301_assignment3
 
         public void SaveTasksToFile(string filePath)
         {
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                try
-                {
-                    Console.WriteLine("Trying to write to file: " + filePath);
-
-                    using (StreamWriter writer = new StreamWriter(filePath))
-                    {
-                        foreach (var task in adjacencyList)
-                        {
-                            StringBuilder line = new StringBuilder();
-
-                            line.Append(task.Key).Append(", ").Append(task.Value[0]);
-
-                            for (int i = 1; i < task.Value.Count; i++)
-                            {
-                                line.Append(", ").Append(task.Value[i]);
-                            }
-
-                            writer.WriteLine(line.ToString());
-                        }
-                    }
-
-                    Console.WriteLine("Tasks saved to file successfully!");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error while saving the file: " + e.Message);
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(filePath))
             {
                 Console.WriteLine("No file has been loaded. Please load a file first.");
+                return;
+            }
+
+            try
+            {
+                Console.WriteLine("Trying to write to file: " + filePath);
+
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    foreach (var task in adjacencyList)
+                    {
+                        string line = task.Key + ", " + string.Join(", ", task.Value);
+                        writer.WriteLine(line);
+                    }
+                }
+
+                Console.WriteLine("Tasks saved to file successfully!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while saving the file: " + e.Message);
             }
         }
 
