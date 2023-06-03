@@ -140,12 +140,13 @@ namespace cab301_assignment3
             {
                 adjacencyList.Remove(taskId);
 
-                // Remove task from the dependencies of other tasks
+                // Remove this task as a dependency from other tasks
                 foreach (var dependencies in adjacencyList.Values)
                 {
                     dependencies.Remove(taskId);
                 }
-                Console.WriteLine($"Task '{taskId}' removed successfully!");
+
+                Console.WriteLine($"Task '{taskId} removed successfully!");
             }
             else
             {
@@ -193,7 +194,7 @@ namespace cab301_assignment3
             {
                 adjacencyList[taskId][0] = newExecutionTime.ToString();
 
-                Console.WriteLine($"Time needed for task '{taskId}' updated successfully.");
+                Console.WriteLine($"Time needed for task '{taskId}' updated successfully!");
             }
             else
             {
