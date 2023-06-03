@@ -83,7 +83,7 @@ void DisplayMenu()
 
 static string InitialiseFile(TaskManager taskManager)
 {
-    Console.WriteLine("Enter the file name (e.g. tasks.txt) to load from the /documents folder.");
+    Console.WriteLine("Enter the file name (e.g. tasks.txt) to load from the documents folder.");
     Console.WriteLine();
     Console.Write("File Name (with extension): ");
 
@@ -108,9 +108,11 @@ static string InitialiseFile(TaskManager taskManager)
 static void AddTask(TaskManager taskManager)
 {
     Console.Write("Enter task ID: ");
+
     string taskId = Console.ReadLine();
 
     Console.Write("Enter time needed to complete the task: ");
+    
     if (!uint.TryParse(Console.ReadLine(), out uint timeNeeded))
     {
         Console.WriteLine("Invalid time input. Please enter a valid integer value.");
@@ -138,6 +140,7 @@ static void AddTask(TaskManager taskManager)
 static void RemoveTask(TaskManager taskManager)
 {
     Console.Write("Enter task ID to remove: ");
+
     string taskId = Console.ReadLine();
 
     taskManager.RemoveTask(taskId);
@@ -146,9 +149,11 @@ static void RemoveTask(TaskManager taskManager)
 static void UpdateTaskTime(TaskManager taskManager)
 {
     Console.Write("Enter task ID: ");
+    
     string taskId = Console.ReadLine();
 
     Console.Write("Enter new time needed to complete the task: ");
+
     if (!int.TryParse(Console.ReadLine(), out int newTimeNeeded))
     {
         Console.WriteLine("Invalid time input. Please enter a valid integer value.");
