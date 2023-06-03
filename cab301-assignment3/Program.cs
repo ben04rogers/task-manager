@@ -20,6 +20,9 @@ while (!exit)
     {
         switch (choice)
         {
+            case 0:
+                Console.Clear();
+                break;
             case 1:
                 InitialiseFile(taskManager, ref filePath);
                 break;
@@ -57,6 +60,7 @@ while (!exit)
 void DisplayMenu()
 {
     Console.WriteLine("Menu:");
+    Console.WriteLine("(0) Clear Screen");
     Console.WriteLine("(1) Load Project from File");
     Console.WriteLine("(2) Add Task");
     Console.WriteLine("(3) Remove Task");
@@ -66,7 +70,7 @@ void DisplayMenu()
     Console.WriteLine("(7) Find Earliest Times");
     Console.WriteLine("(8) Print tasks");
     Console.WriteLine("(9) Exit");
-    Console.Write("Enter your choice: ");
+    Console.Write("Enter your choice (0-8): ");
 }
 
 static void InitialiseFile(TaskManager taskManager, ref string filePath)
