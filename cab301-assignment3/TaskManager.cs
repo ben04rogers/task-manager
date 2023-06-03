@@ -207,16 +207,19 @@ namespace cab301_assignment3
             HashSet<string> processedTasks = new HashSet<string>();
             Stack<string> taskStack = new Stack<string>();
 
+            // Do a depth-first search on each of the unprocessed tasks in adjacencyList
             foreach (var task in adjacencyList)
             {
                 string taskId = task.Key;
 
                 if (!processedTasks.Contains(taskId))
                 {
+                    // Recursively perform depth-first search on the task
                     DepthFirstSearch(taskId, processedTasks, taskStack);
                 }
             }
 
+            // Get sorted tasks by popping elements from the stack
             while (taskStack.Count > 0)
             {
                 // Insert at the beginning of the list
@@ -228,10 +231,13 @@ namespace cab301_assignment3
 
         private void DepthFirstSearch(string taskId, HashSet<string> processedTasks, Stack<string> taskStack)
         {
+            // Mark this current task as processed
             processedTasks.Add(taskId);
 
+            // Do a depth-first search on each of the unprocessed dependencies of the current task
             if (adjacencyList.ContainsKey(taskId))
             {
+                // Get the dependencies
                 foreach (string dependency in adjacencyList[taskId].Skip(1))
                 {
                     if (!processedTasks.Contains(dependency))
@@ -241,6 +247,7 @@ namespace cab301_assignment3
                 }
             }
 
+            // Push this task onto the stack
             taskStack.Push(taskId);
         }
     }
