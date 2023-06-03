@@ -204,43 +204,44 @@ namespace cab301_assignment3
         public List<string> TopologicalSort()
         {
             List<string> sortedTasks = new List<string>();
-            HashSet<string> visited = new HashSet<string>();
-            Stack<string> stack = new Stack<string>();
+            HashSet<string> processedTasks = new HashSet<string>();
+            Stack<string> taskStack = new Stack<string>();
 
             foreach (var task in adjacencyList)
             {
                 string taskId = task.Key;
-                if (!visited.Contains(taskId))
+
+                if (!processedTasks.Contains(taskId))
                 {
-                    DepthFirstSearch(taskId, visited, stack);
+                    DepthFirstSearch(taskId, processedTasks, taskStack);
                 }
             }
 
-            while (stack.Count > 0)
+            while (taskStack.Count > 0)
             {
                 // Insert at the beginning of the list
-                sortedTasks.Insert(0, stack.Pop());
+                sortedTasks.Insert(0, taskStack.Pop());
             }
 
             return sortedTasks;
         }
 
-        private void DepthFirstSearch(string taskId, HashSet<string> visited, Stack<string> stack)
+        private void DepthFirstSearch(string taskId, HashSet<string> processedTasks, Stack<string> taskStack)
         {
-            visited.Add(taskId);
+            processedTasks.Add(taskId);
 
             if (adjacencyList.ContainsKey(taskId))
             {
                 foreach (string dependency in adjacencyList[taskId].Skip(1))
                 {
-                    if (!visited.Contains(dependency))
+                    if (!processedTasks.Contains(dependency))
                     {
-                        DepthFirstSearch(dependency, visited, stack);
+                        DepthFirstSearch(dependency, processedTasks, taskStack);
                     }
                 }
             }
 
-            stack.Push(taskId);
+            taskStack.Push(taskId);
         }
     }
 }
