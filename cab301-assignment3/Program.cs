@@ -119,13 +119,13 @@ static void AddTask(TaskManager taskManager)
     }
 
     Console.WriteLine("Enter dependencies (comma-separated, leave empty if there are no dependencies): ");
+    
     string dependenciesInput = Console.ReadLine();
-    List<string> dependencies = new List<string>();
 
-    if (!string.IsNullOrEmpty(dependenciesInput))
-    {
-        dependencies = dependenciesInput.Split(',').Select(d => d.Trim()).ToList();
-    }
+    // Create list of dependencies
+    List<string> dependencies = string.IsNullOrEmpty(dependenciesInput)
+        ? new List<string>()
+        : dependenciesInput.Split(',').Select(d => d.Trim()).ToList();
 
     taskManager.AddTask(taskId, timeNeeded, dependencies);
 }
@@ -171,7 +171,6 @@ static void FindAndSaveTaskSequence(TaskManager taskManager)
         string sequenceString = string.Join(", ", taskSequence);
 
         File.WriteAllText(filePath, sequenceString);
-
         Console.WriteLine(sequenceString);
         Console.WriteLine("Task sequence saved to file: " + filePath);
     }
