@@ -107,9 +107,16 @@ static string InitialiseFile(TaskManager taskManager)
 
 static void AddTask(TaskManager taskManager)
 {
-    Console.Write("Enter task ID: ");
+    Console.Write("Enter task ID (beggining with 'T'): ");
 
     string taskId = Console.ReadLine();
+
+    // Check if the task ID starts with "T"
+    if (!taskId.StartsWith("T"))
+    {
+        Console.WriteLine("Invalid task ID. Task ID should start with 'T'.");
+        return;
+    }
 
     Console.Write("Enter time needed to complete the task: ");
     
