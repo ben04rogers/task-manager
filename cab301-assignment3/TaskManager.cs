@@ -127,12 +127,11 @@ namespace cab301_assignment3
             }
         }
 
-        public void AddTask(string taskId, uint timeNeeded, List<string> dependencies)
+        public void AddTask(string taskId, uint timeNeeded, List<string> taskDependencies)
         {
-            if (HasCircularDependency(taskId, new HashSet<string>()))
+            if (CheckCircularDependency(taskId, taskDependencies))
             {
-                Console.WriteLine("Circular dependency detected. Cannot add task.");
-                return;
+                throw new InvalidOperationException("Circular dependency found. Please fix before proceeding.");
             }
 
             if (!adjacencyList.ContainsKey(taskId))
@@ -140,7 +139,7 @@ namespace cab301_assignment3
                 List<string> taskDetails = new List<string>();
 
                 taskDetails.Add(timeNeeded.ToString());
-                taskDetails.AddRange(dependencies);
+                taskDetails.AddRange(taskDependencies);
 
                 adjacencyList.Add(taskId, taskDetails);
             }
@@ -150,14 +149,34 @@ namespace cab301_assignment3
             }
         }
 
+        public bool CheckCircularDependency(string taskId, List<string> dependencies)
+        {
+            HashSet<string> visited = new HashSet<string>();
+
+            visited.Add(taskId);
+
+            foreach (string dependency in dependencies)
+            {
+                if (HasCircularDependency(dependency, visited))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private bool HasCircularDependency(string taskId, HashSet<string> visitedTasks)
         {
             if (visitedTasks.Contains(taskId))
             {
+                // Found circular dependency
                 return true;
             }
 
             visitedTasks.Add(taskId);
+
+            // Perform a DFS traversal to detect circular depdencies
 
             if (adjacencyList.ContainsKey(taskId))
             {
@@ -167,6 +186,7 @@ namespace cab301_assignment3
                 {
                     if (HasCircularDependency(dependency, visitedTasks))
                     {
+                        // Found circular dependency
                         return true;
                     }
                 }
@@ -174,7 +194,7 @@ namespace cab301_assignment3
 
             visitedTasks.Remove(taskId);
 
-            return false; 
+            return false;
         }
 
         public void RemoveTask(string taskId)
@@ -305,7 +325,7 @@ namespace cab301_assignment3
         {
             Dictionary<string, uint> earliestTimes = new Dictionary<string, uint>();
 
-            // Calculate the earliest commencement time for each task
+            // Calculate earliest commencement time for each task
             foreach (var task in adjacencyList)
             {
                 string taskId = task.Key;
@@ -347,6 +367,7 @@ namespace cab301_assignment3
 
             // Calculate the earliest commencement time for the current task
             earliestTime = maxDependencyTime;
+
             earliestTimes.Add(taskId, earliestTime);
 
             return earliestTime + uint.Parse(adjacencyList[taskId][0]);
