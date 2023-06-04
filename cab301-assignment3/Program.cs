@@ -180,7 +180,7 @@ static void SaveTasksToFile(TaskManager taskManager, string filePath)
 
 static void FindAndSaveTaskSequence(TaskManager taskManager)
 {
-    string fileName = "sequence.txt";
+    string fileName = "Sequence.txt";
     string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     string filePath = Path.Combine(documentsFolder, fileName);
 
