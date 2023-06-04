@@ -1,4 +1,5 @@
 ﻿using cab301_assignment3;
+using System.Runtime.InteropServices;
 using System.Text;
 
 Console.WriteLine("╔════════════════════════════════╗");
@@ -91,7 +92,25 @@ static string InitialiseFile(TaskManager taskManager)
     Console.Write("File Name (with extension): ");
 
     string fileName = Console.ReadLine();
-    string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+    string documentsFolder;
+
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+        // For Windows
+        documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+    {
+        // For Mac
+        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        documentsFolder = Path.Combine(homeFolder, "Documents");
+    }
+    else
+    {
+        throw new NotSupportedException("Unsupported operating system.");
+    }
+
     string tasksFilePath = Path.Combine(documentsFolder, fileName);
 
     if (!File.Exists(tasksFilePath))
@@ -181,7 +200,25 @@ static void SaveTasksToFile(TaskManager taskManager, string filePath)
 static void FindAndSaveTaskSequence(TaskManager taskManager)
 {
     string fileName = "Sequence.txt";
-    string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+    string documentsFolder;
+
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+        // For Windows
+        documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+    {
+        // For Mac
+        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        documentsFolder = Path.Combine(homeFolder, "Documents");
+    }
+    else
+    {
+        throw new NotSupportedException("Unsupported operating system.");
+    }
+
     string filePath = Path.Combine(documentsFolder, fileName);
 
     List<string> taskSequence = taskManager.TopologicalSort();
