@@ -93,23 +93,7 @@ static string InitialiseFile(TaskManager taskManager)
 
     string fileName = Console.ReadLine();
 
-    string documentsFolder;
-
-    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-    {
-        // For Windows
-        documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-    }
-    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-    {
-        // For Mac
-        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        documentsFolder = Path.Combine(homeFolder, "Documents");
-    }
-    else
-    {
-        throw new NotSupportedException("Unsupported operating system.");
-    }
+    string documentsFolder = GetDocumentsFolder();
 
     string tasksFilePath = Path.Combine(documentsFolder, fileName);
 
@@ -201,23 +185,7 @@ static void FindAndSaveTaskSequence(TaskManager taskManager)
 {
     string fileName = "Sequence.txt";
 
-    string documentsFolder;
-
-    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-    {
-        // For Windows
-        documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-    }
-    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-    {
-        // For Mac
-        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        documentsFolder = Path.Combine(homeFolder, "Documents");
-    }
-    else
-    {
-        throw new NotSupportedException("Unsupported operating system.");
-    }
+    string documentsFolder = GetDocumentsFolder();
 
     string filePath = Path.Combine(documentsFolder, fileName);
 
@@ -254,4 +222,27 @@ static void FindAndSaveEarliestCommencementTimes(TaskManager taskManager)
 
         Console.WriteLine("Earliest commencement times saved to file: " + filePath);
     }
+}
+
+static string GetDocumentsFolder()
+{
+    string documentsFolder;
+
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+        // For Windows
+        documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+    {
+        // For Mac
+        string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        documentsFolder = Path.Combine(homeFolder, "Documents");
+    }
+    else
+    {
+        throw new NotSupportedException("Unsupported operating system.");
+    }
+
+    return documentsFolder;
 }
