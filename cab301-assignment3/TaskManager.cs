@@ -335,14 +335,14 @@ namespace cab301_assignment3
                 // Check if the task has already been processed
                 if (!commencementTimes.ContainsKey(taskId))
                 {
-                    CalculateEarliestTime(taskId, commencementTimes);
+                    CalculateCommencementTime(taskId, commencementTimes);
                 }
             }
 
             return commencementTimes;
         }
 
-        private uint CalculateEarliestTime(string taskId, Dictionary<string, uint> commencementTimes)
+        private uint CalculateCommencementTime(string taskId, Dictionary<string, uint> commencementTimes)
         {
             if (commencementTimes.TryGetValue(taskId, out uint commencementTime))
             {
@@ -355,12 +355,16 @@ namespace cab301_assignment3
 
             foreach (string dependency in dependencies)
             {
-                uint dependencyTime = CalculateEarliestTime(dependency, commencementTimes);
-            
-                maxDependencyTime = Math.Max(maxDependencyTime, dependencyTime);
+                uint dependencyTime = CalculateCommencementTime(dependency, commencementTimes);
+
+                // Calculate max depedency time among the dependencies
+                maxDependencyTime = Math.Max(maxDependencyTime, dependencyTime + uint.Parse(adjacencyList[dependency][0]));
             }
 
-            commencementTime = maxDependencyTime + uint.Parse(adjacencyList[taskId][0]);
+            // Calculate commencement time for task
+            commencementTime = maxDependencyTime;
+
+            // Store in dictionary
             commencementTimes.Add(taskId, commencementTime);
 
             Console.WriteLine($"{taskId}, {maxDependencyTime}");
