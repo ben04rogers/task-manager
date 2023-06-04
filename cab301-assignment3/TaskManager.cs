@@ -323,7 +323,9 @@ namespace cab301_assignment3
 
         public Dictionary<string, uint> FindEarliestCommencementTimes()
         {
-            Dictionary<string, uint> earliestTimes = new Dictionary<string, uint>();
+            Dictionary<string, uint> commencementTimes = new Dictionary<string, uint>();
+
+            Console.WriteLine("Earliest commencement times:");
 
             // Calculate earliest commencement time for each task
             foreach (var task in adjacencyList)
@@ -331,46 +333,39 @@ namespace cab301_assignment3
                 string taskId = task.Key;
 
                 // Check if the task has already been processed
-                if (!earliestTimes.ContainsKey(taskId))
+                if (!commencementTimes.ContainsKey(taskId))
                 {
-                    CalculateEarliestTime(taskId, earliestTimes);
+                    CalculateEarliestTime(taskId, commencementTimes);
                 }
             }
 
-            return earliestTimes;
+            return commencementTimes;
         }
 
-        private uint CalculateEarliestTime(string taskId, Dictionary<string, uint> earliestTimes)
+        private uint CalculateEarliestTime(string taskId, Dictionary<string, uint> commencementTimes)
         {
-            // Check if the earliest time for the current task has already been calculated
-            if (earliestTimes.TryGetValue(taskId, out uint earliestTime))
+            if (commencementTimes.TryGetValue(taskId, out uint commencementTime))
             {
-                return earliestTime;
+                return commencementTime;
             }
 
             uint maxDependencyTime = 0;
 
-            // Get the dependencies for the current task
             List<string> dependencies = adjacencyList[taskId].Skip(1).ToList();
 
-            // Calculate the earliest time for each dependency recursively
             foreach (string dependency in dependencies)
             {
-                uint dependencyTime = CalculateEarliestTime(dependency, earliestTimes);
-
-                // Find the maximum finishing time among the dependencies
-                if (dependencyTime > maxDependencyTime)
-                {
-                    maxDependencyTime = dependencyTime;
-                }
+                uint dependencyTime = CalculateEarliestTime(dependency, commencementTimes);
+            
+                maxDependencyTime = Math.Max(maxDependencyTime, dependencyTime);
             }
 
-            // Calculate the earliest commencement time for the current task
-            earliestTime = maxDependencyTime;
+            commencementTime = maxDependencyTime + uint.Parse(adjacencyList[taskId][0]);
+            commencementTimes.Add(taskId, commencementTime);
 
-            earliestTimes.Add(taskId, earliestTime);
+            Console.WriteLine($"{taskId}, {maxDependencyTime}");
 
-            return earliestTime + uint.Parse(adjacencyList[taskId][0]);
+            return commencementTime;
         }
     }
 }
