@@ -215,7 +215,7 @@ static void FindAndSaveEarliestCommencementTimes(TaskManager taskManager)
 
         foreach (var task in earliestTimes)
         {
-            // Formart each line in Sequence.txt to following the format "TASK_ID, EARLIEST_TIME"
+            // Formart each line in Sequence.txt to following the format "TASK_ID, COMMENCEMENT_TIME"
             sb.AppendLine($"{task.Key}, {task.Value}");
         }
 
