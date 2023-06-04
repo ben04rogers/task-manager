@@ -1,5 +1,5 @@
 ﻿using cab301_assignment3;
-
+using System.Text;
 
 Console.WriteLine("╔════════════════════════════════╗");
 Console.WriteLine("║     Welcome to TaskTracker     ║");
@@ -49,6 +49,9 @@ while (!exit)
             case 6:
                 FindAndSaveTaskSequence(taskManager);
                 break;
+            case 7:
+                FindAndSaveEarliestCommencementTimes(taskManager);
+                break;
             case 8:
                 taskManager.PrintTasks();
                 break;
@@ -75,7 +78,7 @@ void DisplayMenu()
     Console.WriteLine("(4) Update Task Time");
     Console.WriteLine("(5) Save Project to File");
     Console.WriteLine("(6) Find Task Sequence");
-    Console.WriteLine("(7) Find Earliest Times");
+    Console.WriteLine("(7) Find Earliest Commencement Times");
     Console.WriteLine("(8) Print tasks");
     Console.WriteLine("(9) Exit");
     Console.Write("Enter your choice (0-8): ");
@@ -190,5 +193,28 @@ static void FindAndSaveTaskSequence(TaskManager taskManager)
         File.WriteAllText(filePath, sequenceString);
         Console.WriteLine("Task sequence " + sequenceString);
         Console.WriteLine("Task sequence saved to file: " + filePath);
+    }
+}
+
+static void FindAndSaveEarliestCommencementTimes(TaskManager taskManager)
+{
+    string fileName = "EarliestTimes.txt";
+    string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    string filePath = Path.Combine(documentsFolder, fileName);
+
+    Dictionary<string, uint> earliestTimes = taskManager.FindEarliestCommencementTimes();
+
+    if (earliestTimes != null)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        foreach (var task in earliestTimes)
+        {
+            sb.AppendLine($"{task.Key}, {task.Value}");
+        }
+
+        File.WriteAllText(filePath, sb.ToString());
+
+        Console.WriteLine("Earliest commencement times saved to file: " + filePath);
     }
 }

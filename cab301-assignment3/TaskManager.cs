@@ -51,6 +51,14 @@ namespace cab301_assignment3
                         dependencies.Add(parts[i].Trim());
                     }
 
+                    // Remove the existing task if it already exists
+                    if (adjacencyList.ContainsKey(taskId))
+                    {
+                        adjacencyList.Remove(taskId);
+                        Console.WriteLine($"Task '{taskId}' already exists in the graph. Overwriting...");
+
+                    }
+
                     // Add task and dependencies to the graph
                     AddTask(taskId, timeNeeded, dependencies);
                 }
@@ -156,6 +164,12 @@ namespace cab301_assignment3
 
         public void PrintTasks()
         {
+            if (adjacencyList.Count == 0)
+            {
+                Console.WriteLine("No tasks available.");
+                return;
+            }
+
             Console.WriteLine("All Tasks:");
 
             foreach (var task in adjacencyList.Keys)
@@ -250,6 +264,48 @@ namespace cab301_assignment3
 
             // Push this task onto the stack
             taskStack.Push(taskId);
+        }
+
+        public Dictionary<string, uint> FindEarliestCommencementTimes()
+        {
+            Dictionary<string, uint> earliestTimes = new Dictionary<string, uint>();
+
+            // Get the topologically sorted task sequence
+            List<string> taskSequence = TopologicalSort();
+
+            // Calculate the earliest commencement time for each task in the sequence
+            foreach (string taskId in taskSequence)
+            {
+                if (adjacencyList.TryGetValue(taskId, out List<string> taskDetails))
+                {
+                    // Check if the task has any dependencies
+                    if (taskDetails.Count > 1)
+                    {
+                        uint maxDependencyTime = 0;
+
+                        // Find the maximum earliest commencement time among the dependencies
+                        for (int i = 1; i < taskDetails.Count; i++)
+                        {
+                            string dependency = taskDetails[i];
+                            uint dependencyTime = earliestTimes[dependency];
+
+                            if (dependencyTime > maxDependencyTime)
+                                maxDependencyTime = dependencyTime;
+                        }
+
+                        // Calculate the earliest commencement time for the current task
+                        uint earliestTime = maxDependencyTime + uint.Parse(taskDetails[0]);
+                        earliestTimes.Add(taskId, earliestTime);
+                    }
+                    else
+                    {
+                        // If there are no dependencies, the earliest commencement time is 0
+                        earliestTimes.Add(taskId, 0);
+                    }
+                }
+            }
+
+            return earliestTimes;
         }
     }
 }
