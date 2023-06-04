@@ -18,6 +18,9 @@ namespace cab301_assignment3
         {
             try
             {
+                // Clear the existing graph
+                adjacencyList.Clear(); 
+
                 // Read lines from the file
                 string[] lines = File.ReadAllLines(tasksFilePath);
 
@@ -126,20 +129,52 @@ namespace cab301_assignment3
 
         public void AddTask(string taskId, uint timeNeeded, List<string> dependencies)
         {
+            if (HasCircularDependency(taskId, new HashSet<string>()))
+            {
+                Console.WriteLine("Circular dependency detected. Cannot add task.");
+                return;
+            }
+
             if (!adjacencyList.ContainsKey(taskId))
             {
                 List<string> taskDetails = new List<string>();
 
                 taskDetails.Add(timeNeeded.ToString());
-                
                 taskDetails.AddRange(dependencies);
-                
+
                 adjacencyList.Add(taskId, taskDetails);
             }
             else
             {
                 Console.WriteLine($"Task '{taskId}' already exists in the graph.");
             }
+        }
+
+        private bool HasCircularDependency(string taskId, HashSet<string> visitedTasks)
+        {
+            if (visitedTasks.Contains(taskId))
+            {
+                return true;
+            }
+
+            visitedTasks.Add(taskId);
+
+            if (adjacencyList.ContainsKey(taskId))
+            {
+                List<string> dependencies = adjacencyList[taskId].Skip(1).ToList();
+
+                foreach (string dependency in dependencies)
+                {
+                    if (HasCircularDependency(dependency, visitedTasks))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            visitedTasks.Remove(taskId);
+
+            return false; 
         }
 
         public void RemoveTask(string taskId)
@@ -270,42 +305,51 @@ namespace cab301_assignment3
         {
             Dictionary<string, uint> earliestTimes = new Dictionary<string, uint>();
 
-            // Get the topologically sorted task sequence
-            List<string> taskSequence = TopologicalSort();
-
-            // Calculate the earliest commencement time for each task in the sequence
-            foreach (string taskId in taskSequence)
+            // Calculate the earliest commencement time for each task
+            foreach (var task in adjacencyList)
             {
-                if (adjacencyList.TryGetValue(taskId, out List<string> taskDetails))
+                string taskId = task.Key;
+
+                // Check if the task has already been processed
+                if (!earliestTimes.ContainsKey(taskId))
                 {
-                    // Check if the task has any dependencies
-                    if (taskDetails.Count > 1)
-                    {
-                        uint maxDependencyTime = 0;
-
-                        // Find the maximum earliest commencement time among the dependencies
-                        for (int i = 1; i < taskDetails.Count; i++)
-                        {
-                            string dependency = taskDetails[i];
-                            uint dependencyTime = earliestTimes[dependency];
-
-                            if (dependencyTime > maxDependencyTime)
-                                maxDependencyTime = dependencyTime;
-                        }
-
-                        // Calculate the earliest commencement time for the current task
-                        uint earliestTime = maxDependencyTime + uint.Parse(taskDetails[0]);
-                        earliestTimes.Add(taskId, earliestTime);
-                    }
-                    else
-                    {
-                        // If there are no dependencies, the earliest commencement time is 0
-                        earliestTimes.Add(taskId, 0);
-                    }
+                    CalculateEarliestTime(taskId, earliestTimes);
                 }
             }
 
             return earliestTimes;
+        }
+
+        private uint CalculateEarliestTime(string taskId, Dictionary<string, uint> earliestTimes)
+        {
+            // Check if the earliest time for the current task has already been calculated
+            if (earliestTimes.TryGetValue(taskId, out uint earliestTime))
+            {
+                return earliestTime;
+            }
+
+            uint maxDependencyTime = 0;
+
+            // Get the dependencies for the current task
+            List<string> dependencies = adjacencyList[taskId].Skip(1).ToList();
+
+            // Calculate the earliest time for each dependency recursively
+            foreach (string dependency in dependencies)
+            {
+                uint dependencyTime = CalculateEarliestTime(dependency, earliestTimes);
+
+                // Find the maximum finishing time among the dependencies
+                if (dependencyTime > maxDependencyTime)
+                {
+                    maxDependencyTime = dependencyTime;
+                }
+            }
+
+            // Calculate the earliest commencement time for the current task
+            earliestTime = maxDependencyTime;
+            earliestTimes.Add(taskId, earliestTime);
+
+            return earliestTime + uint.Parse(adjacencyList[taskId][0]);
         }
     }
 }
