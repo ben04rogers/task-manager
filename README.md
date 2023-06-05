@@ -52,12 +52,12 @@ T1, T2, T7, T4, T5, T3, T6
 save the solution into a text file, namely, EarliestTimes.txt. For example, for the above
 sample project, the content in EarliestTimes.txt should look like:
 
-T1, 0
-T2, 100
-T3, 260
-T4, 100
-T5, 190
-T6, 260
-T7, 0
+T1, 0 <br>
+T2, 100 <br>
+T3, 260 <br>
+T4, 100 <br>
+T5, 190 <br>
+T6, 260 <br>
+T7, 0 <br>
 
 ![task-manager](https://github.com/ben04rogers/task-manager/assets/47819009/8b3dc5c7-108a-4582-81d2-456b49719d00)
