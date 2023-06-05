@@ -60,4 +60,5 @@ T5, 190 <br>
 T6, 260 <br>
 T7, 0 <br>
 
-![task-manager](https://github.com/ben04rogers/task-manager/assets/47819009/8b3dc5c7-108a-4582-81d2-456b49719d00)
+
+![task-manager](https://github.com/ben04rogers/task-manager/assets/47819009/3eb6e691-09b7-4cb3-b2be-b8a22bee877e)
