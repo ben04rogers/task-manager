@@ -13,13 +13,13 @@ complete the task, which is a positive integer, and a list of tasks that the tas
 information about one task is stored in a separated line in the text file. Here is an example,
 demonstrating the organisation of the text file:
 
-T1, 100
-T2, 30, T1
-T3, 50, T2, T5
-T4, 90, T1, T7
-T5, 70, T2, T4
-T6, 55, T5
-T7, 50
+T1, 100 <br>
+T2, 30, T1 <br>
+T3, 50, T2, T5 <br>
+T4, 90, T1, T7 <br>
+T5, 70, T2, T4 <br>
+T6, 55, T5 <br>
+T7, 50 <br>
 
 The above indicates that the time needed to complete task T1 is 100 and T1 does not depend
 on any other tasks in the project, the time needed to complete task T2 is 30 and task T2 cannot
